@@ -1,0 +1,21 @@
+class ListExample extends StatelessWidget {
+  ListExample({super.key});
+
+  final List<String> users = ['Ali', 'Ahmed', 'Sara', 'John'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('List Example')),
+      body: ListView.builder(
+        itemCount: users.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: const Icon(Icons.person),
+            title: Text(users[index]),
+          );
+        },
+      ),
+    );
+  }
+}
