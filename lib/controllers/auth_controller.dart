@@ -28,12 +28,16 @@ class AuthController extends GetxController {
   Future<void> register(String name, String email, String password) async {
     isLoading.value = true;
 
-    await repo.register(name, email, password);
+    final registered = await repo.register(name, email, password);
 
     isLoading.value = false;
 
-    Get.snackbar('Success', 'User registered successfully');
-    Get.off(() => const LoginScreen());
+    if (registered) {
+      Get.snackbar('Success', 'User registered successfully');
+      Get.off(() => const LoginScreen());
+    } else {
+      Get.snackbar('Error', 'Email already exists');
+    }
   }
 
   void logout() {

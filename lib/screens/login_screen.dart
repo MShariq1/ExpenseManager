@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 40),
 
                 AppTextField(
                   controller: passwordController,
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 100),
 
                 Obx(() {
                   return AppButton(

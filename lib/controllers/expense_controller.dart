@@ -57,6 +57,11 @@ class ExpenseController extends GetxController {
     await loadExpenses();
   }
 
+  Future<void> deleteExpense(int id) async {
+    await repo.deleteExpense(id);
+    await loadExpenses();
+  }
+
   Future<void> filterExpenses({
     required String startDate,
     required String endDate,

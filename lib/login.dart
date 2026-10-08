@@ -2,17 +2,20 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:uni_proj/forgot_password.dart';
+import 'package:uni_proj/screens/register_screen.dart';
 import 'package:uni_proj/services/auth_service.dart';
 import 'package:uni_proj/widgets/app_button.dart';
 import 'package:uni_proj/widgets/app_textfield.dart';
+
 
 class Login extends StatelessWidget {
   const Login({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<String> items = ['One', 'Two', 'Three', 'Four'];
-    final List<String> users = ['Ali', 'Ahmed', 'Sara', 'John'];
+    final List<String> items = ['One', 'Two', 'Three', 'Four', 'One', 'Two', 'Three', 'Four'];
+    final List<String> users = ['Ali', 'Ahmed', 'Sara', 'John', 'Ali', 'Ahmed', 'Sara', 'John'];
+    final firstNameController = TextEditingController();
 
     return Scaffold(
       body: SafeArea(
@@ -30,8 +33,8 @@ class Login extends StatelessWidget {
             //   itemCount: items.length,
             //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             //     crossAxisCount: 2,
-            //     crossAxisSpacing: 10,
-            //     mainAxisSpacing: 10,
+            //     crossAxisSpacing: 50,
+            //     mainAxisSpacing: 100,
             //   ),
             //   itemBuilder: (context, index) {
             //     return Container(
@@ -52,16 +55,15 @@ class Login extends StatelessWidget {
             //       title: Text('User 1'),
             //       subtitle: Text('user1@gmail.com'),
             //     ),
-            //     ListTile(
-            //       leading: Icon(Icons.person),
-            //       title: Text('User 2'),
-            //       subtitle: Text('user2@gmail.com'),
-            //     ),
             //   ],
             // )
             // GridView.count(
-            //   crossAxisCount: 3,
+            //   crossAxisCount: 1,
             //   children: [
+            //     Container(color: Colors.red),
+            //     Container(color: Colors.blue),
+            //     Container(color: Colors.green),
+            //     Container(color: Colors.orange),
             //     Container(color: Colors.red),
             //     Container(color: Colors.blue),
             //     Container(color: Colors.green),
@@ -74,25 +76,33 @@ class Login extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 50),
 
                     // Logo
                     // Image.asset(
-                    //   'assets/images/logo.jpeg',
+                    //   'assets/images/delete_warning_icon.png',
                     //   height: 100,
                     // ),
                     Image.network(
-                      'https://thumbs.dreamstime.com/b/round-logo-sample-design-vector-illustration-white-background-148034726.jpg',
+                      "https://thumbs.dreamstime.com/b/golden-bird-expansive-wings-takes-flight-against-vibrant-blue-sky-scene-evokes-sense-freedom-wonder-sample-jpeg-364733156.jpg",
                       height: 100,
                       fit: BoxFit.fill,
                     ),
 
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 31),
 
+                    AppTextField(
+                      controller: firstNameController,
+                      hintText: "First Name",
+                      prefixIcon: Icons.person_outline,
+                      obscureText: true,
+                    ),
+
+SizedBox(height: 20,),
                     AppTextField(
                       hintText: 'Email',
                       prefixIcon: Icons.email_outlined,
-                      keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.number,
                       controller: TextEditingController(),
                     ),
 
@@ -131,21 +141,32 @@ class Login extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     AppButton(
+                      title: "Abdur Rehman",
+                      backgroundColor: Colors.green,
+                      textColor: Colors.black,
+                      borderRadius: 20,
+                      onPressed: () {
+                        print("Abdur Rehman");
+                      },
+                    
+                    ),
+
+                    AppButton(
                       title: 'Login',
                       // backgroundColor: Colors.red,
                       textColor: Colors.white,
                       borderRadius: 20,
                       onPressed: () async {
-                        final user = await AuthService().login(
-                          email: 'ali@test.com',
-                          password: '123456',
-                        );
+                        // final user = await AuthService().login(
+                        //   email: 'ali@test.com',
+                        //   password: '123456',
+                        // );
 
-                        if (user != null) {
-                          debugPrint('Login success: ${user.name}');
-                        } else {
-                          debugPrint('Invalid email or password');
-                        }
+                        // if (user != null) {
+                        //   debugPrint('Login success: ${user.name}');
+                        // } else {
+                        //   debugPrint('Invalid email or password');
+                        // }
                       },
                     ),
 
@@ -157,9 +178,15 @@ class Login extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text("Don't have an account?"),
-                        SizedBox(width: 40),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RegisterScreen(),
+                              ),
+                            );
+                          },
                           child: const Text('Register'),
                         ),
                       ],

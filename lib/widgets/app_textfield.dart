@@ -29,7 +29,7 @@ class AppTextField extends StatelessWidget {
         hintText: hintText,
         prefixIcon: Icon(prefixIcon),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(22),
         ),
       ),
     );

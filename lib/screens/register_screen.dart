@@ -91,6 +91,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 const SizedBox(height: 16),
 
+                // TextFormField(
+                //   controller: TextEditingController(),
+                //   obscureText: true,
+                //   keyboardType: TextInputType.visiblePassword,
+                //   validator: (value) {
+                //     if (value == null || value.trim().isEmpty) {
+                //       return 'Please confirm password';
+                //     }
+
+                //     if (value.trim() != passwordController.text.trim()) {
+                //       return 'Passwords do not match';
+                //     }
+
+                //     return null;
+                //   },
+                //   decoration: InputDecoration(
+                //     hintText: 'TEST FIELKD',
+                //     prefixIcon: const Icon(Icons.lock_outline),
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(22),
+                //     ),
+                //   ),
+                // ),
+
                 AppTextField(
                   controller: passwordController,
                   hintText: 'Password',
