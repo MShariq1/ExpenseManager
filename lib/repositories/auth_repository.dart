@@ -23,7 +23,7 @@ class AuthRepository {
 
     return UserModel.fromMap(result.rows.first.assoc());
   }
-
+//sdnsakdjaksdsa
   Future<bool> register(String name, String email, String password) async {
     final conn = await DatabaseService.getConnection();
 
