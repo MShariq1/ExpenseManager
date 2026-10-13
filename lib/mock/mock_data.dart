@@ -5,6 +5,8 @@ import '../models/user_model.dart';
 // Local in-memory data used while the real DB/API code is commented out.
 // Data resets when the app restarts.
 class MockData {
+
+
   static final List<Map<String, dynamic>> users = [
     {
       'id': 1,
