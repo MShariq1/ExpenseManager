@@ -16,6 +16,7 @@ class DatabaseService {
       port: 27448,
       userName: 'avnadmin',
       password: '',
+      // REDACTED_DATABASE_PASSWORD
       databaseName: 'student_finance_app',
       secure: true,
     );
