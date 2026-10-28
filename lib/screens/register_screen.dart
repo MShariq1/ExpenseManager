@@ -37,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     auth.register(
       nameController.text.trim(),
       emailController.text.trim(),
-      passwordController.text.trim(),
+      passwordController.text,
     );
   }
 
@@ -114,7 +114,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 //     ),
                 //   ),
                 // ),
-
                 AppTextField(
                   controller: passwordController,
                   hintText: 'Password',

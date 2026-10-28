@@ -9,10 +9,7 @@ import 'places_screen.dart';
 class AddUpdateExpenseScreen extends StatefulWidget {
   final ExpenseModel? expense;
 
-  const AddUpdateExpenseScreen({
-    super.key,
-    this.expense,
-  });
+  const AddUpdateExpenseScreen({super.key, this.expense});
 
   @override
   State<AddUpdateExpenseScreen> createState() => _AddUpdateExpenseScreenState();
@@ -59,7 +56,7 @@ class _AddUpdateExpenseScreenState extends State<AddUpdateExpenseScreen> {
       lastDate: DateTime(2035),
     );
 
-    if (selectedDate != null) {
+    if (mounted && selectedDate != null) {
       dateController.text =
           '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}';
     }
@@ -68,7 +65,7 @@ class _AddUpdateExpenseScreenState extends State<AddUpdateExpenseScreen> {
   Future<void> pickLocation() async {
     final selectedPlace = await Get.to<String>(() => const PlacesScreen());
 
-    if (selectedPlace != null && selectedPlace.isNotEmpty) {
+    if (mounted && selectedPlace != null && selectedPlace.isNotEmpty) {
       locationController.text = selectedPlace;
     }
   }
@@ -80,24 +77,14 @@ class _AddUpdateExpenseScreenState extends State<AddUpdateExpenseScreen> {
 
     final expense = widget.expense;
 
-    if (expense == null) {
-      await expenseController.addExpense(
-        title: titleController.text.trim(),
-        amount: double.parse(amountController.text.trim()),
-        location: locationController.text.trim(),
-        expenseDate: dateController.text.trim(),
-      );
-    } else {
-      await expenseController.updateExpense(
-        id: expense.id,
-        title: titleController.text.trim(),
-        amount: double.parse(amountController.text.trim()),
-        location: locationController.text.trim(),
-        expenseDate: dateController.text.trim(),
-      );
-    }
-
-    Get.back();
+    final saved = await expenseController.saveExpense(
+      id: expense?.id,
+      title: titleController.text.trim(),
+      amount: double.parse(amountController.text.trim()),
+      location: locationController.text.trim(),
+      expenseDate: dateController.text.trim(),
+    );
+    if (mounted && saved) Get.back();
   }
 
   @override
@@ -105,9 +92,7 @@ class _AddUpdateExpenseScreenState extends State<AddUpdateExpenseScreen> {
     final isUpdate = widget.expense != null;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(isUpdate ? 'Update Expense' : 'Add Expense'),
-      ),
+      appBar: AppBar(title: Text(isUpdate ? 'Update Expense' : 'Add Expense')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -139,7 +124,12 @@ class _AddUpdateExpenseScreenState extends State<AddUpdateExpenseScreen> {
                       return 'Please enter amount';
                     }
 
-                    if (double.tryParse(value.trim()) == null) {
+                    if (double.tryParse(value.trim()) == null ||
+                        !double.parse(value.trim()).isFinite ||
+                        double.parse(value.trim()) <= 0 ||
+                        !RegExp(
+                          r'^\d{1,8}(\.\d{1,2})?$',
+                        ).hasMatch(value.trim())) {
                       return 'Please enter valid amount';
                     }
 
@@ -187,12 +177,15 @@ class _AddUpdateExpenseScreenState extends State<AddUpdateExpenseScreen> {
 
                 const SizedBox(height: 24),
 
-                AppButton(
-                  title: isUpdate ? 'Update Expense' : 'Add Expense',
-                  backgroundColor: Colors.blue,
-                  textColor: Colors.white,
-                  borderRadius: 20,
-                  onPressed: saveExpense,
+                Obx(
+                  () => AppButton(
+                    isLoading: expenseController.isSaving.value,
+                    title: isUpdate ? 'Update Expense' : 'Add Expense',
+                    backgroundColor: Colors.blue,
+                    textColor: Colors.white,
+                    borderRadius: 20,
+                    onPressed: saveExpense,
+                  ),
                 ),
               ],
             ),

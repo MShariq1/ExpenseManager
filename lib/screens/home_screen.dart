@@ -35,7 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 
-  Future<void> pickFilterDate({required BuildContext context, required TextEditingController controller,}) async {
+  Future<void> pickFilterDate({
+    required BuildContext context,
+    required TextEditingController controller,
+  }) async {
     final selectedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.tryParse(controller.text) ?? DateTime.now(),
@@ -43,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
       lastDate: DateTime(2035),
     );
 
-    if (selectedDate != null) {
+    if (mounted && selectedDate != null) {
       controller.text = formatDate(selectedDate);
     }
   }
@@ -115,9 +118,8 @@ class _HomeScreenState extends State<HomeScreen> {
           location: '',
         );
 
-        Get.back();
+        if (mounted) Get.back();
       },
-    
     );
   }
 
@@ -141,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: authController.logout,
             icon: const Icon(Icons.logout),
           ),
-          
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -155,6 +156,20 @@ class _HomeScreenState extends State<HomeScreen> {
           return const Center(child: CircularProgressIndicator());
         }
 
+        if (expenseController.error.value.isNotEmpty) {
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(expenseController.error.value),
+                TextButton(
+                  onPressed: expenseController.loadExpenses,
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        }
         if (expenseController.expenses.isEmpty) {
           return const Center(child: Text('No expenses found'));
         }
@@ -165,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 12,
-            crossAxisSpacing:12,
+            crossAxisSpacing: 12,
             childAspectRatio: 0.95,
           ),
           itemBuilder: (context, index) {
@@ -241,59 +256,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-// CREATE TABLE users (
-//   id INT AUTO_INCREMENT PRIMARY KEY,
-//   name VARCHAR(100) NOT NULL,
-//   email VARCHAR(100) NOT NULL UNIQUE,
-//   password VARCHAR(255) NOT NULL,
-//   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
-
-
-
-
-// CREATE TABLE expenses (
-//   id INT AUTO_INCREMENT PRIMARY KEY,
-//   user_id INT NOT NULL,
-//   title VARCHAR(100) NOT NULL,
-//   amount DECIMAL(10,2) NOT NULL,
-//   location VARCHAR(255),
-//   expense_date DATE NOT NULL,
-//   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//   FOREIGN KEY (user_id) REFERENCES users(id)
-// );
-
-
-
-
-// INSERT INTO users (name, email, password)
-// VALUES ('Taimoor John', 'john@gmail.com', '123456');
-
-
-
-
-
-// INSERT INTO expenses (user_id, title, amount, location, expense_date)
-// VALUES
-// (1, 'Food', 1200, 'Lahore', '2026-09-01'),
-// (1, 'Fuel', 3000, 'Karachi', '2026-09-05'),
-// (1, 'Shopping', 4500, 'Islamabad', '2026-09-10');
-
-
-
-
-
-
-
-// DROP USER IF EXISTS 'flutter_user'@'%';
-// DROP USER IF EXISTS 'flutter_user'@'localhost';
-
-// CREATE USER 'flutter_user'@'%' IDENTIFIED BY 'flutter123';
-// CREATE USER 'flutter_user'@'localhost' IDENTIFIED BY 'flutter123';
-
-// GRANT ALL PRIVILEGES ON student_finance_app.* TO 'flutter_user'@'%';
-// GRANT ALL PRIVILEGES ON student_finance_app.* TO 'flutter_user'@'localhost';
-
-// FLUSH PRIVILEGES;
