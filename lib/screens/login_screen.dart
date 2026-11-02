@@ -215,8 +215,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 TextButton(
                   onPressed: () {
-                    // Get.to(() => const RegisterScreen());
-                    ifCondition(52);
+                    Get.to(() => const RegisterScreen());
+                    // ifCondition(52);
                   },
                   child: const Text('Create Account'),
                 ),
