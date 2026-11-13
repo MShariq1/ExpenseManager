@@ -6,7 +6,8 @@ import 'package:flutter/foundation.dart';
 // Edit this URL to point to your backend.
 // iOS simulator: localhost; Android emulator: 10.0.2.2.
 // Physical phone: use your Mac's reachable LAN IP or hostname.
-const String apiBaseUrl = 'http://10.0.2.2:3000/api';
+// const String apiBaseUrl = 'http://10.0.2.2:3000/api';
+const String apiBaseUrl = 'https://finance-api-silk.vercel.app/api';
 
 class ApiException implements Exception {
   final String message;

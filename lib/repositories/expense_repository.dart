@@ -3,6 +3,7 @@ import '../network/api_client.dart';
 
 class ExpenseRepository {
   final ApiClient api;
+  
   ExpenseRepository(this.api);
   Future<List<ExpenseModel>> getExpenses(int userId) async {
     final data = await api.request(
